@@ -5,3 +5,9 @@ def leituraArquivo():
     arquivo.close()
 
     return enderecos
+
+def EscreveResultados(texto):
+    arquivo = open('arquivos_teste/resultados.txt', 'w')
+    arquivo.writelines(texto)
+    arquivo.close()
+    return

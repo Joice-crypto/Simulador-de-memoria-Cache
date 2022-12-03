@@ -25,7 +25,7 @@ class Conjunto:
     tamanho = 0
     prox = 0
 
-    def __init__(self, qtdeLinhas): # construtor 
+    def __init__(self, qtdeLinhas):
         self.linhas = []
         self.tamanho = qtdeLinhas
         self.prox = 0
@@ -62,6 +62,44 @@ class Conjunto:
                 aux = x.lfu
                 menosUsado = i
         return menosUsado
+
+    def gravaRotulo(self, rotuloEndereco, politicaSubstituicao, politicaGravacao, mp,enderecoTotal):
+        if self.prox == self.tamanho and self.linha != []:
+            # LFU
+            if politicaSubstituicao == 0:
+                poslinhaMenosUsada = self.buscaMenosUsada()
+                linha_object = Linha(rotuloEndereco, enderecoTotal)
+                del self.linha[poslinhaMenosUsada]
+                self.linha.insert(poslinhaMenosUsada, linha_object)
+                if politicaGravacao == 1:
+                    mp.adicionaNaMP(linha_object.enderecototal)
+            # LRU
+            elif politicaSubstituicao == 1:
+                poslinhaMenosRecUsada = self.buscaUltimaUsada()
+                data = datetime.now()
+                linha_object = Linha(rotuloEndereco, enderecoTotal)
+                linha_object.lru = data
+                del self.linha[poslinhaMenosRecUsada]
+                self.linha.insert(poslinhaMenosRecUsada, linha_object)
+                if politicaGravacao == 1:
+                    mp.adicionaNaMP(linha_object.enderecoTotal)
+            # Aleatorio
+            else:
+                linhaAleatoria = randint(0, self.prox)
+                if politicaGravacao == 1:
+                    mp.adicionaNaMP(self.linha[linhaAleatoria].enderecoTotal)
+                linha_object = Linha(rotuloEndereco, enderecoTotal)
+                self.linha.insert(linhaAleatoria, linha_object)
+
+        else:
+            linha_object = Linha(rotuloEndereco, enderecoTotal)
+            if politicaSubstituicao == 0:
+                linha_object.lfu += 1
+            elif politicaSubstituicao == 1:
+                data = datetime.now()
+                linha_object.lru = data
+            self.linha.append(linha_object)
+            self.prox = self.prox + 1
 
 
 def gravaTAG(self, TAGEndereco, politicaSubstituicao, politicaGravacao, mp, enderecoTotal):
@@ -103,7 +141,6 @@ def gravaTAG(self, TAGEndereco, politicaSubstituicao, politicaGravacao, mp, ende
             self.prox = self.prox + 1
 
 
-
 class MemoriaPrincipal:
     enderecos = []
     total = 0
@@ -121,6 +158,37 @@ class MemoriaPrincipal:
             if i == enderecoTotal:
                 return True
         return False
+
+
+class MemoriaCache:
+    conjuntos = []
+    tamanho = 0
+    proximo = 0
+
+    def __init__(self, qtdeConjuntos, qtdeLinhas):
+        self.tamanho = qtdeConjuntos
+        for i in range(0, qtdeConjuntos):
+            self.conjuntos.append(Conjunto(qtdeLinhas))
+        self.proximo = 0
+
+    def setConjuntos(self, conjuntos):
+        self.conjuntos = conjuntos
+
+    def getConjuntos(self):
+        return self.conjuntos
+
+    def procuraConjunto(self, enderecoConjunto):
+        for i in range(0, self.proximo):
+            if self.conjuntos[i].getConjunto() == enderecoConjunto:
+                return self.conjuntos[i]
+        return False
+
+    def gravaConjunto(self, enderecoConjunto):
+        if self.proximo != self.tamanho:
+            self.conjuntos[self.proximo].setConjunto(enderecoConjunto)
+            self.proximo += 1
+            return self.conjuntos[self.proximo-1]
+        return None
 
 
 

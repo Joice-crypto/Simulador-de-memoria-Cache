@@ -1,0 +1,27 @@
+
+DADOS DE ENTRADA:
+Politica de Escrita: 0 - write-through
+Tamanho da linha: 256, 
+Numero de linhas: 16, 
+Associatividade por conjunto: 128
+Politica de Substituição: 0 - LFU
+
+RESULTADOS:
+Tamanho da Cache: 4096
+Total de endereços no arquivo de entrada:
+Total de registros: 1
+Total de leituras: 1
+Total de escritas: 0
+Dados da Cache:
+Total de leituras: 1
+Total de acertos: 0
+Taxa de acerto Leitura: 0.0000%
+Total de escritas: 0
+Total de acertos: 0
+Taxa de acerto Escrita: 0.0000%
+Taxa de acertos: 0.0000%
+Tempo médio de acesso da cache: 0.0ns
+Dados da Memória Principal:
+Total de escritas: 0
+Total de leituras: 1
+Acessos: 1
