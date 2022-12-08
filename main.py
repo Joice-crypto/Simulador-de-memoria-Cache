@@ -1,7 +1,8 @@
 
 from cache import *
 from leitura_arquivo import leituraArquivo
-from simulacao import *
+from simulacaMD import *
+from simulaMA import *
 
 
 

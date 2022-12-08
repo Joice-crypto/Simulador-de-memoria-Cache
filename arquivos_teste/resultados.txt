@@ -3,8 +3,8 @@ DADOS DE ENTRADA:
 Politica de Escrita: 0 - write-through
 Tamanho da linha: 16, 
 Numero de linhas: 256, 
-Associatividade por conjunto: 4
-Politica de Substituição: 0 - LFU
+Associatividade por conjunto: 2
+Politica de Substituição: 1 - LRU
 	RESULTADOS:
 Tamanho da Cache: 4096
 	Total de endereços no arquivo de entrada:
@@ -13,13 +13,16 @@ Total de leituras: 2865
 Total de escritas: 1231
 	Dados da Cache:
 Total de leituras: 2865
-Total de acertos: 2814
-Taxa de acerto de Leitura: 98.2199%
+Total de acertos: 2697
+Taxa de acerto de Leitura: 94.1361%
+Taxa de erro de Leitura: 5.8290%
 Total de escritas: 1231
-Total de acertos: 1210
-Taxa de acerto de Escrita: 98.2941%
-	Taxa de acertos: 0.9824%
+Total de acertos: 1165
+Taxa de acerto de Escrita: 94.6385%
+Taxa de erro de Escrita: 5.2803%
+Taxa de acertos: 0.9429%
+Taxa de erros: 64.8447%
 Dados da Memória Principal:
 Total de escritas: 1231
-Total de leituras: 51
-Acessos: 1282
+Total de leituras: 1
+Acessos: 1232

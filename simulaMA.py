@@ -1,19 +1,14 @@
-# vou escrever e ler os valores do txt e imprimir os resuktados dda cache
 from leitura_arquivo import *
 from cache import *
 
-def executa_MD(): 
-    print("oi")
-    
-
-
+#FALTA AINDA FAZER O CALCULO DO TEMPO PARA A LRU
 # Simula a cache por associação
 def executa_MA():
     politicaEscrita = int(input('\tPolitica de Escrita:\n 0 - write-through;\n1 - write-back\n '))
     numeroDeLinhas = 256
     numDeconjunto = int(input('\tAssossiatividade por conjunto:\n 0 - 2 vias;\n 1 - 4 vias;\n 2- 8 vias\n'))
     #  tempoAcesso = int(input('\tTempo de acesso quando encontra (hit-time): '))
-    politicaSubstituicao = int(input('\tPolitica de Substituição:\n 0 - LFU;\n1 - LRU;\n2 - Aleatório\n'))
+   
     #  tempoMP = int(input('\tTempo de leitura/escrita:'))
     TamTotalCache = 4096
     TamLinha = 16
@@ -21,88 +16,170 @@ def executa_MA():
     
    
 
-    if politicaEscrita == 0 and numDeconjunto == 0 and politicaSubstituicao == 0: # se for write-through e #associativiade 2 vias e politica sub LFU
+    if politicaEscrita == 0 : # se for write-through e #associativiade 2 vias e politica sub LFU
+        if numDeconjunto == 0:                                       
+            #Calcula o tamanho do endereço do conjunto
+            resto = 0
+            tamanhoEnderecoconjunto = 0
+            numDeconjunto = 2
+            aux = numDeconjunto
+            linhasPorconjunto = 128  #256 / 2
+            while resto != 1:
+                aux = aux/2
+                resto = aux
+                tamanhoEnderecoconjunto += 1
+            # Calcula o tamanho do endereço da palavra
+            resto = 0
+            aux = TamLinha
+            enderecoPalavra = 0
+            while resto != 1:
+                aux = aux/2
+                resto = aux
+                enderecoPalavra += 1
+            # Calcula o rótulo
+            rotulo = 32 - (enderecoPalavra + tamanhoEnderecoconjunto)
+            memoriaCache = MemoriaCache(numDeconjunto, linhasPorconjunto) #tenho que fazer essa função
+            CalculaResultado(memoriaCache,rotulo,tamanhoEnderecoconjunto,politicaEscrita,
+            memoriaPrincipal,TamLinha,TamTotalCache,numeroDeLinhas,numDeconjunto)
+
+
+        elif  numDeconjunto == 1:
                                                         
-        #Calcula o tamanho do endereço do conjunto
-        resto = 0
-        tamanhoEnderecoconjunto = 0
-        numDeconjunto = 2
-        aux = numDeconjunto
-        linhasPorconjunto = 128  #256 / 2
-        while resto != 1:
-            aux = aux/2
-            resto = aux
-            tamanhoEnderecoconjunto += 1
-        # Calcula o tamanho do endereço da palavra
-        resto = 0
-        aux = TamLinha
-        enderecoPalavra = 0
-        while resto != 1:
-            aux = aux/2
-            resto = aux
-            enderecoPalavra += 1
-        # Calcula o rótulo
-        rotulo = 32 - (enderecoPalavra + tamanhoEnderecoconjunto)
-        memoriaCache = MemoriaCache(numDeconjunto, linhasPorconjunto) #tenho que fazer essa função
-        CalculaResultado(memoriaCache,rotulo,tamanhoEnderecoconjunto,politicaSubstituicao,politicaEscrita,
-        memoriaPrincipal,TamLinha,TamTotalCache,numeroDeLinhas,numDeconjunto)
+            #Calcula o tamanho do endereço do conjunto
+            resto = 0
+            tamanhoEnderecoconjunto = 0
+            numDeconjunto = 4
+            aux = numDeconjunto
+            linhasPorconjunto = 64  #256 / 4
+            while resto != 1:
+                aux = aux/2
+                resto = aux
+                tamanhoEnderecoconjunto += 1
+            # Calcula o tamanho do endereço da palavra
+            resto = 0
+            aux = TamLinha
+            enderecoPalavra = 0
+            while resto != 1:
+                aux = aux/2
+                resto = aux
+                enderecoPalavra += 1
+            # Calcula o rótulo
+            rotulo = 32 - (enderecoPalavra + tamanhoEnderecoconjunto)
+            memoriaCache = MemoriaCache(numDeconjunto, linhasPorconjunto) #tenho que fazer essa função
+            CalculaResultado(memoriaCache,rotulo,tamanhoEnderecoconjunto,politicaEscrita,
+            memoriaPrincipal,TamLinha,TamTotalCache,numeroDeLinhas,numDeconjunto)
+
+        else:
+                                                        
+            #Calcula o tamanho do endereço do conjunto
+            resto = 0
+            tamanhoEnderecoconjunto = 0
+            numDeconjunto = 8
+            aux = numDeconjunto
+            linhasPorconjunto = 32  #256 / 8
+            while resto != 1:
+                aux = aux/2
+                resto = aux
+                tamanhoEnderecoconjunto += 1
+            # Calcula o tamanho do endereço da palavra
+            resto = 0
+            aux = TamLinha
+            enderecoPalavra = 0
+            while resto != 1:
+                aux = aux/2
+                resto = aux
+                enderecoPalavra += 1
+            # Calcula o rótulo
+            rotulo = 32 - (enderecoPalavra + tamanhoEnderecoconjunto)
+            memoriaCache = MemoriaCache(numDeconjunto, linhasPorconjunto) #tenho que fazer essa função
+            CalculaResultado(memoriaCache,rotulo,tamanhoEnderecoconjunto,politicaEscrita,
+            memoriaPrincipal,TamLinha,TamTotalCache,numeroDeLinhas,numDeconjunto)
+
+    if politicaEscrita == 1 : # se for write-through e #associativiade 2 vias e politica sub LFU
+        if numDeconjunto == 0:                                       
+            #Calcula o tamanho do endereço do conjunto
+            resto = 0
+            tamanhoEnderecoconjunto = 0
+            numDeconjunto = 2
+            aux = numDeconjunto
+            linhasPorconjunto = 128  #256 / 2
+            while resto != 1:
+                aux = aux/2
+                resto = aux
+                tamanhoEnderecoconjunto += 1
+            # Calcula o tamanho do endereço da palavra
+            resto = 0
+            aux = TamLinha
+            enderecoPalavra = 0
+            while resto != 1:
+                aux = aux/2
+                resto = aux
+                enderecoPalavra += 1
+            # Calcula o rótulo
+            rotulo = 32 - (enderecoPalavra + tamanhoEnderecoconjunto)
+            memoriaCache = MemoriaCache(numDeconjunto, linhasPorconjunto) #tenho que fazer essa função
+            CalculaResultado(memoriaCache,rotulo,tamanhoEnderecoconjunto,politicaEscrita,
+            memoriaPrincipal,TamLinha,TamTotalCache,numeroDeLinhas,numDeconjunto)
 
 
-    elif politicaEscrita == 0 and numDeconjunto == 1 and politicaSubstituicao == 0:
-                                                     
-        #Calcula o tamanho do endereço do conjunto
-        resto = 0
-        tamanhoEnderecoconjunto = 0
-        numDeconjunto = 4
-        aux = numDeconjunto
-        linhasPorconjunto = 64  #256 / 4
-        while resto != 1:
-            aux = aux/2
-            resto = aux
-            tamanhoEnderecoconjunto += 1
-        # Calcula o tamanho do endereço da palavra
-        resto = 0
-        aux = TamLinha
-        enderecoPalavra = 0
-        while resto != 1:
-            aux = aux/2
-            resto = aux
-            enderecoPalavra += 1
-        # Calcula o rótulo
-        rotulo = 32 - (enderecoPalavra + tamanhoEnderecoconjunto)
-        memoriaCache = MemoriaCache(numDeconjunto, linhasPorconjunto) #tenho que fazer essa função
-        CalculaResultado(memoriaCache,rotulo,tamanhoEnderecoconjunto,politicaSubstituicao,politicaEscrita,
-        memoriaPrincipal,TamLinha,TamTotalCache,numeroDeLinhas,numDeconjunto)
+        elif  numDeconjunto == 1:
+                                                        
+            #Calcula o tamanho do endereço do conjunto
+            resto = 0
+            tamanhoEnderecoconjunto = 0
+            numDeconjunto = 4
+            aux = numDeconjunto
+            linhasPorconjunto = 64  #256 / 4
+            while resto != 1:
+                aux = aux/2
+                resto = aux
+                tamanhoEnderecoconjunto += 1
+            # Calcula o tamanho do endereço da palavra
+            resto = 0
+            aux = TamLinha
+            enderecoPalavra = 0
+            while resto != 1:
+                aux = aux/2
+                resto = aux
+                enderecoPalavra += 1
+            # Calcula o rótulo
+            rotulo = 32 - (enderecoPalavra + tamanhoEnderecoconjunto)
+            memoriaCache = MemoriaCache(numDeconjunto, linhasPorconjunto) #tenho que fazer essa função
+            CalculaResultado(memoriaCache,rotulo,tamanhoEnderecoconjunto,politicaEscrita,
+            memoriaPrincipal,TamLinha,TamTotalCache,numeroDeLinhas,numDeconjunto)
 
-    elif politicaEscrita == 1 and numDeconjunto == 0 and politicaSubstituicao == 2:
-                                                      
-        #Calcula o tamanho do endereço do conjunto
-        resto = 0
-        tamanhoEnderecoconjunto = 0
-        numDeconjunto = 8
-        aux = numDeconjunto
-        linhasPorconjunto = 32  #256 / 8
-        while resto != 1:
-            aux = aux/2
-            resto = aux
-            tamanhoEnderecoconjunto += 1
-        # Calcula o tamanho do endereço da palavra
-        resto = 0
-        aux = TamLinha
-        enderecoPalavra = 0
-        while resto != 1:
-            aux = aux/2
-            resto = aux
-            enderecoPalavra += 1
-        # Calcula o rótulo
-        rotulo = 32 - (enderecoPalavra + tamanhoEnderecoconjunto)
-        memoriaCache = MemoriaCache(numDeconjunto, linhasPorconjunto) #tenho que fazer essa função
-        CalculaResultado(memoriaCache,rotulo,tamanhoEnderecoconjunto,politicaSubstituicao,politicaEscrita,
-        memoriaPrincipal,TamLinha,TamTotalCache,numeroDeLinhas,numDeconjunto)
+        else:
+                                                        
+            #Calcula o tamanho do endereço do conjunto
+            resto = 0
+            tamanhoEnderecoconjunto = 0
+            numDeconjunto = 8
+            aux = numDeconjunto
+            linhasPorconjunto = 32  #256 / 8
+            while resto != 1:
+                aux = aux/2
+                resto = aux
+                tamanhoEnderecoconjunto += 1
+            # Calcula o tamanho do endereço da palavra
+            resto = 0
+            aux = TamLinha
+            enderecoPalavra = 0
+            while resto != 1:
+                aux = aux/2
+                resto = aux
+                enderecoPalavra += 1
+            # Calcula o rótulo
+            rotulo = 32 - (enderecoPalavra + tamanhoEnderecoconjunto)
+            memoriaCache = MemoriaCache(numDeconjunto, linhasPorconjunto) #tenho que fazer essa função
+            CalculaResultado(memoriaCache,rotulo,tamanhoEnderecoconjunto,politicaEscrita,
+            memoriaPrincipal,TamLinha,TamTotalCache,numeroDeLinhas,numDeconjunto)
+    
 
+     
 
-def CalculaResultado(memoriaCache,rotulo,tamanhoEnderecoconjunto,politicaSubstituicao,politicaEscrita,memoriaPrincipal,
+def CalculaResultado(memoriaCache,rotulo,tamanhoEnderecoconjunto,politicaEscrita,memoriaPrincipal,
     TamLinha,TamTotalCache,numeroDeLinhas,numDeconjunto):
+                politicaSubstituicao = int(input('\tPolitica de Substituição:\n 0 - LFU;\n1 - LRU;\n2 - Aleatório\n'))
                 enderecos = leituraArquivo()
                 leituras = 0
                 escritas = 0
@@ -112,7 +189,8 @@ def CalculaResultado(memoriaCache,rotulo,tamanhoEnderecoconjunto,politicaSubstit
                 escritasNaMP = 0
                 encontrouNaCacheLeitura = 0
                 encontrouNaCacheEscrita = 0
-                miss= 0
+                miss = 0
+                missEscrita = 0
                 encontrouNaMPLeitura = 0
                 encontrouNaMPEscrita = 0
                 for end in enderecos:
@@ -142,13 +220,8 @@ def CalculaResultado(memoriaCache,rotulo,tamanhoEnderecoconjunto,politicaSubstit
                                 encontrouNaCacheLeitura += 1
                             else:
                                 # Caso não encontrou o rótulo da miss
-                                Conjunto.gravaRotulo(
-                                    Conjunto, rotuloEndereco, politicaSubstituicao, politicaEscrita,
-                                    memoriaPrincipal, endBinario
-                                )
                                 miss += 1
-                                leiturasNaMP += 1
-                                encontrouNaMPLeitura += 1
+                               
                         else:
                             conjunto = memoriaCache.gravaConjunto(enderecoconjunto)
                             if conjunto:
@@ -156,7 +229,6 @@ def CalculaResultado(memoriaCache,rotulo,tamanhoEnderecoconjunto,politicaSubstit
                                     rotuloEndereco, politicaSubstituicao, politicaEscrita,
                                     memoriaPrincipal, endBinario
                                 )
-                                miss += 1
                                 leiturasNaMP += 1
                                 encontrouNaMPLeitura += 1
                     elif operacao == "w":
@@ -168,12 +240,13 @@ def CalculaResultado(memoriaCache,rotulo,tamanhoEnderecoconjunto,politicaSubstit
                             
                             Conjunto.gravaRotulo(Conjunto,rotuloEndereco, politicaSubstituicao, politicaEscrita,memoriaPrincipal, endBinario)
                         else:
-                            retornoRotulo = conjunto.procuraTAG(rotuloEndereco)
+                            retornoRotulo = Conjunto.procuraTAG(Conjunto,rotuloEndereco)
                             if not retornoRotulo:
                                 Conjunto.gravaRotulo(Conjunto,
                                     rotuloEndereco, politicaSubstituicao, politicaEscrita,
                                     memoriaPrincipal, endBinario
                                 )
+                                missEscrita += 1
                             else:
                                 encontrouNaCacheEscrita += 1
                         if politicaEscrita == 0:
@@ -189,20 +262,26 @@ def CalculaResultado(memoriaCache,rotulo,tamanhoEnderecoconjunto,politicaSubstit
                 # Acerto Leitura Cache
                 if leiturasNaCache:
                     taxaDeAcertoCacheLeitura = ((encontrouNaCacheLeitura*100.0)/leiturasNaCache)
+                    taxaDeMissCacheLeitura = ((miss*100.0)/leiturasNaCache)
                 # Acerto Leitura MP
                 if leiturasNaMP:
                     taxaDeAcertoMPLeitura = (encontrouNaMPLeitura*100.0)/leiturasNaMP
                 if escritasNaCache:
                     taxaDeAcertoCacheEscrita = ((encontrouNaCacheEscrita*100.0)/escritasNaCache)
+                    taxaDeMissCacheEscrita = ((missEscrita*100.0)/escritasNaCache)
                 totalLeituraEscrita = (float(encontrouNaCacheLeitura)+float(encontrouNaCacheEscrita))
                 taxaAcerto = totalLeituraEscrita / (leiturasNaCache + escritasNaCache)
+                taxaErro = (((encontrouNaCacheLeitura*100.0)- TamTotalCache) / TamTotalCache)
             
 
                 # totalDeRegistros = leituras + escritas
 
                 taxaDeAcertoCacheLeitura = format(taxaDeAcertoCacheLeitura, '.4f')
+                taxaDeMissCacheLeitura = format(taxaDeMissCacheLeitura, '.4f')
                 taxaDeAcertoCacheEscrita = format(taxaDeAcertoCacheEscrita, '.4f')
+                taxaDeMissCacheEscrita = format(taxaDeMissCacheEscrita, '.4f')
                 taxaAcerto = format(taxaAcerto, '.4f')
+                taxaErro = format(taxaErro, '.4f')
 
                 texto = ""
                 texto += "\nDADOS DE ENTRADA:\n"
@@ -238,12 +317,15 @@ def CalculaResultado(memoriaCache,rotulo,tamanhoEnderecoconjunto,politicaSubstit
                 texto += "Total de leituras: " + str(leiturasNaCache) + "\n"
                 texto += "Total de acertos: " + str(encontrouNaCacheLeitura) + "\n"
                 texto += "Taxa de acerto de Leitura: " + str(taxaDeAcertoCacheLeitura) + "%\n"
+                texto += "Taxa de erro de Leitura: " + str(taxaDeMissCacheLeitura) + "%\n"
 
                 texto += "Total de escritas: " + str(escritasNaCache) + "\n"
                 texto += "Total de acertos: " + str(encontrouNaCacheEscrita) + "\n"
                 texto += "Taxa de acerto de Escrita: " + str(taxaDeAcertoCacheEscrita) + "%\n"
+                texto += "Taxa de erro de Escrita: " + str(taxaDeMissCacheEscrita) + "%\n"
 
-                texto += "\tTaxa de acertos: " + str(taxaAcerto) + "%\n"
+                texto += "Taxa de acertos: " + str(taxaAcerto) + "%\n"
+                texto += "Taxa de erros: " + str(taxaErro) + "%\n"
 
                 texto += "Dados da Memória Principal:\n"
                 texto += "Total de escritas: " + str(encontrouNaMPEscrita) + "\n"
@@ -255,7 +337,3 @@ def CalculaResultado(memoriaCache,rotulo,tamanhoEnderecoconjunto,politicaSubstit
                 EscreveResultados(texto)
 
                 return
-
-    
-
-
