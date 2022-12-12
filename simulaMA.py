@@ -1,15 +1,12 @@
 from leitura_arquivo import *
 from cache import *
 
-#FALTA AINDA FAZER O CALCULO DO TEMPO PARA A LRU
+
 # Simula a cache por associação
 def executa_MA():
     politicaEscrita = int(input('\tPolitica de Escrita:\n 0 - write-through;\n1 - write-back\n '))
     numeroDeLinhas = 256
     numDeconjunto = int(input('\tAssossiatividade por conjunto:\n 0 - 2 vias;\n 1 - 4 vias;\n 2- 8 vias\n'))
-    #  tempoAcesso = int(input('\tTempo de acesso quando encontra (hit-time): '))
-   
-    #  tempoMP = int(input('\tTempo de leitura/escrita:'))
     TamTotalCache = 4096
     TamLinha = 16
     memoriaPrincipal = MemoriaPrincipal()
@@ -38,7 +35,7 @@ def executa_MA():
                 enderecoPalavra += 1
             # Calcula o rótulo
             rotulo = 32 - (enderecoPalavra + tamanhoEnderecoconjunto)
-            memoriaCache = MemoriaCache(numDeconjunto, linhasPorconjunto) #tenho que fazer essa função
+            memoriaCache = MemoriaCache(numDeconjunto, linhasPorconjunto) 
             CalculaResultado(memoriaCache,rotulo,tamanhoEnderecoconjunto,politicaEscrita,
             memoriaPrincipal,TamLinha,TamTotalCache,numeroDeLinhas,numDeconjunto)
 
@@ -65,7 +62,7 @@ def executa_MA():
                 enderecoPalavra += 1
             # Calcula o rótulo
             rotulo = 32 - (enderecoPalavra + tamanhoEnderecoconjunto)
-            memoriaCache = MemoriaCache(numDeconjunto, linhasPorconjunto) #tenho que fazer essa função
+            memoriaCache = MemoriaCache(numDeconjunto, linhasPorconjunto) 
             CalculaResultado(memoriaCache,rotulo,tamanhoEnderecoconjunto,politicaEscrita,
             memoriaPrincipal,TamLinha,TamTotalCache,numeroDeLinhas,numDeconjunto)
 
@@ -170,7 +167,7 @@ def executa_MA():
                 enderecoPalavra += 1
             # Calcula o rótulo
             rotulo = 32 - (enderecoPalavra + tamanhoEnderecoconjunto)
-            memoriaCache = MemoriaCache(numDeconjunto, linhasPorconjunto) #tenho que fazer essa função
+            memoriaCache = MemoriaCache(numDeconjunto, linhasPorconjunto) 
             CalculaResultado(memoriaCache,rotulo,tamanhoEnderecoconjunto,politicaEscrita,
             memoriaPrincipal,TamLinha,TamTotalCache,numeroDeLinhas,numDeconjunto)
     
@@ -193,6 +190,7 @@ def CalculaResultado(memoriaCache,rotulo,tamanhoEnderecoconjunto,politicaEscrita
                 missEscrita = 0
                 encontrouNaMPLeitura = 0
                 encontrouNaMPEscrita = 0
+                
                 for end in enderecos:
                     atributos = end.split(' ') #separo a operação dos numeros
                     operacao  = atributos[0] # r ou w

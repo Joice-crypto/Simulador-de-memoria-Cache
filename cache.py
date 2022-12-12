@@ -63,6 +63,15 @@ class Conjunto:
                 menosUsado = i
         return menosUsado
 
+
+    def gravaTAG(self, TAGEndereco, mp, enderecoTotal):
+            if self.prox == self.tamanho and self.linha != []:
+               
+                linha_object = Linha(TAGEndereco, enderecoTotal)
+                
+                self.linha.append(linha_object)
+                self.prox = self.prox + 1
+
     def gravaRotulo(self, rotuloEndereco, politicaSubstituicao, politicaGravacao, mp,enderecoTotal):
         if self.prox == self.tamanho and self.linha != []:
             # LFU
@@ -102,43 +111,7 @@ class Conjunto:
             self.prox = self.prox + 1
 
 
-def gravaTAG(self, TAGEndereco, politicaSubstituicao, politicaGravacao, mp, enderecoTotal):
-        if self.prox == self.tamanho and self.linha != []:
-            # LFU
-            if politicaSubstituicao == 0:
-                poslinhaMenosUsada = self.buscaMenosUsada()
-                linha_object = Linha(TAGEndereco, enderecoTotal)
-                del self.linha[poslinhaMenosUsada]
-                self.linha.insert(poslinhaMenosUsada, linha_object)
-                if politicaGravacao == 1:
-                    mp.adicionaNaMP(linha_object.enderecototal)
-            # LRU
-            elif politicaSubstituicao == 1:
-                poslinhaMenosRecUsada = self.buscaUltimaUsada()
-                data = datetime.now()
-                linha_object = Linha(TAGEndereco, enderecoTotal)
-                linha_object.lru = data
-                del self.linha[poslinhaMenosRecUsada]
-                self.linha.insert(poslinhaMenosRecUsada, linha_object)
-                if politicaGravacao == 1:
-                    mp.adicionaNaMP(linha_object.enderecoTotal)
-            # Aleatorio
-            else:
-                linhaAleatoria = randint(0, self.prox)
-                if politicaGravacao == 1:
-                    mp.adicionaNaMP(self.linha[linhaAleatoria].enderecoTotal)
-                linha_object = Linha(TAGEndereco, enderecoTotal)
-                self.linha.insert(linhaAleatoria, linha_object)
-
-        else:
-            linha_object = Linha(TAGEndereco, enderecoTotal)
-            if politicaSubstituicao == 0:
-                linha_object.lfu += 1
-            elif politicaSubstituicao == 1:
-                data = datetime.now()
-                linha_object.lru = data
-            self.linha.append(linha_object)
-            self.prox = self.prox + 1
+    
 
 
 class MemoriaPrincipal:
