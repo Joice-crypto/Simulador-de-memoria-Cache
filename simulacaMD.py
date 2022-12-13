@@ -89,7 +89,7 @@ def CalculaResultado(memoriaCache,rotulo,politicaEscrita,memoriaPrincipal,TamTot
                         else:
                             conjunto = memoriaCache.gravaConjunto(enderecoconjunto)
                             if conjunto:
-                                Conjunto.gravaTAG()
+                                Conjunto.gravaTAG(rotulo,memoriaPrincipal,endBinario)
                                 leiturasNaMP += 1
                                 encontrouNaMPLeitura += 1
                     elif operacao == "w":
@@ -99,11 +99,11 @@ def CalculaResultado(memoriaCache,rotulo,politicaEscrita,memoriaPrincipal,TamTot
                         if not conjunto:
                             conjunto = memoriaCache.gravaConjunto(enderecoconjunto)
                             
-                            Conjunto.gravaTAG()
+                            Conjunto.gravaTAG(Conjunto,rotulo,memoriaPrincipal,endBinario)
                         else:
                             retornoRotulo = Conjunto.procuraTAG(Conjunto,rotuloEndereco)
                             if not retornoRotulo:
-                                Conjunto.gravaTAG()
+                                Conjunto.gravaTAG(Conjunto,rotulo,memoriaPrincipal,endBinario)
                                 missEscrita += 1
                             else:
                                 encontrouNaCacheEscrita += 1
@@ -140,7 +140,51 @@ def CalculaResultado(memoriaCache,rotulo,politicaEscrita,memoriaPrincipal,TamTot
             taxaDeMissCacheEscrita = format(taxaDeMissCacheEscrita, '.4f')
             taxaAcerto = format(taxaAcerto, '.4f')
             taxaErro = format(taxaErro, '.4f')
-                
+
+        
+            texto = ""
+            texto += "\nDADOS DE ENTRADA:\n"
+            if politicaEscrita == 0:
+                texto += "Politica de Escrita: " + str(politicaEscrita)
+                texto += " - write-through\n"
+            else:
+                texto += "Politica de Escrita: " + str(politicaEscrita)
+                texto += " - write-back\n"
+            texto += "Numero de linhas: " + str(numeroDeLinhas) + ", \n"
+
+            texto += "\tRESULTADOS:\n"
+            texto += "Tamanho da Cache: " + str(TamTotalCache) + "\n"
+            texto += "\tTotal de endereços no arquivo de entrada:\n"
+            texto += "Total de registros: " + str(totalDeRegistros) + "\n"
+            texto += "Total de leituras: " + str(totalDeLeituras) + "\n"
+            texto += "Total de escritas: " + str(totalDeEscritas) + "\n"
+
+            texto += "\tDados da Cache:\n"
+            texto += "Total de leituras: " + str(leiturasNaCache) + "\n"
+            texto += "Total de acertos: " + str(encontrouNaCacheLeitura) + "\n"
+            texto += "Taxa de acerto de Leitura: " + str(taxaDeAcertoCacheLeitura) + "%\n"
+            texto += "Taxa de erro de Leitura: " + str(taxaDeMissCacheLeitura) + "%\n"
+
+            texto += "Total de escritas: " + str(escritasNaCache) + "\n"
+            texto += "Total de acertos: " + str(encontrouNaCacheEscrita) + "\n"
+            texto += "Taxa de acerto de Escrita: " + str(taxaDeAcertoCacheEscrita) + "%\n"
+            texto += "Taxa de erro de Escrita: " + str(taxaDeMissCacheEscrita) + "%\n"
+
+            texto += "Taxa de acertos: " + str(taxaAcerto) + "%\n"
+            texto += "Taxa de erros: " + str(taxaErro) + "%\n"
+
+            texto += "Dados da Memória Principal:\n"
+            texto += "Total de escritas: " + str(encontrouNaMPEscrita) + "\n"
+            texto += "Total de leituras: " + str(encontrouNaMPLeitura) + "\n"
+            texto += "Acessos: " + str(leiturasNaMP+escritasNaMP) + "\n"
+
+            print (texto)
+
+            EscreveResultados(texto)
+
+            return
+
+           
                         
             
                     
